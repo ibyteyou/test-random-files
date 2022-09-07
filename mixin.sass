@@ -1,0 +1,112 @@
+//
+// mixins
+//
+@mixin no-select
+  -webkit-touch-callout: none
+  -webkit-user-select: none
+  -khtml-user-select: none
+  -moz-user-select: none
+  -ms-user-select: none
+  user-select: none
+  -ms-text-size-adjust: none
+  -webkit-text-size-adjust: none
+@function is-int($value)
+  @if type-of($value) != number
+    @return null
+  @else
+    @if round($value) == $value
+      @return true
+    @else
+      @return false
+
+=not($ignorList...)
+  //if only a single value given
+  @if (length($ignorList) == 1)
+    //it is probably a list variable so set ignore list to the variable
+    $ignorList: nth($ignorList,1)
+  //set up an empty $notOutput variable
+  $notOutput: ''
+  //for each item in the list
+  @each $not in $ignorList
+    //generate a :not([ignored_item]) segment for each item in the ignore list and put them back to back
+    $notOutput: $notOutput + ':not(#{$not})'
+  //output the full :not() rule including all ignored items
+  &#{$notOutput}
+    @content
+
+=adaptive
+  background-color: #339292
+=trans
+  transition: all $sec $ffx
+=trans-fast
+  transition: all $sec-fast $ffx
+=trans-long
+  transition: all $sec-long $ffx
+=trans-half-fast
+  transition: all $sec-half-fast $ffx
+=trans-half-long
+  transition: all $sec-half-long $ffx
+=trans-ease
+  transition: all $sec $ffx-ease
+=shadow
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08)
+=shadow-bottom
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16), 0 0 0 0 rgba(0,0,0,0.08)
+=shadow-weak
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16)
+=shadow-strong
+  box-shadow: 0 3px 8px 0 rgba(0,0,0,0.2), 0 0 0 1px rgba(0,0,0,0.08)
+=shadow-black
+  box-shadow: inset 1px 1px rgba($grey-lighter, 0.5), inset -1px -1px rgba($grey-lighter, 0.5), 0 0 3px $black
+=shadow-black-strong
+  box-shadow: inset 1px 1px rgba($grey-lighter, 0.5), inset -1px -1px rgba($grey-lighter, 0.5), 0 0 6px $black
+=shadow-clear
+  box-shadow: 0 2px 2px 0 transparent
+=gradient-primary
+  background: linear-gradient(30deg, rgba(lighten($primary, 33%), .16) 0%, rgba(lighten($primary, 8%), .16) 20%, rgba(lighten($primary, 42%), .16) 28%, rgba(lighten($primary, 16%), .16) 34%, rgba(lighten($primary, 50%), .16) 60%, rgba(lighten($primary, 8%), .16) 70%, rgba(lighten($primary, 33%), .16) 100%)
+=blur($radius)
+  -ms-filter: blur(#{$radius}px)
+  -webkit-filter: blur(#{$radius}px)
+  filter: blur(#{$radius}px)
+  filter: progid:DXImageTransform.Microsoft.Blur(Strength=#{$radius})
+=grayscale
+  filter: url("data:image/svg+xml;utf8,&lt;svg xmlns=\'http://www.w3.org/2000/svg\'&gt;&lt;filter id=\'grayscale\'&gt;&lt;feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/&gt;&lt;/filter&gt;&lt;/svg&gt;#grayscale")
+  filter: gray
+  -webkit-filter: grayscale(100%)
+=border-radius
+  border-radius: $angle-radius
+=transparent-placeholder
+  &::-webkit-input-placeholder
+    color: transparent
+  &::-moz-placeholder
+    color: transparent
+  &:-ms-input-placeholder
+    color: transparent
+  &::placeholder
+    color: transparent
+=disabled-placeholder
+  &::-webkit-input-placeholder
+    color: $grey-element
+  &::-moz-placeholder
+    color: $grey-element
+  &:-ms-input-placeholder
+    color: $grey-element
+  &::placeholder
+    color: $grey-element
+=disabled-color
+  color: $grey
+=input-placeholder-in
+  color: $color-placeholder
+  text-overflow: ellipsis !important
+  max-width:  92.5% !important
+  white-space: nowrap !important
+  overflow: hidden !important
+=input-placeholder
+  &::-webkit-input-placeholder
+    +input-placeholder-in
+  &::-moz-placeholder
+    +input-placeholder-in
+  &:-ms-input-placeholder
+    +input-placeholder-in
+  &::placeholder
+    +input-placeholder-in
